@@ -11,6 +11,27 @@ module.exports.signin = (req,res)=>{
     });
 }
 
+//get the signup data
+module.exports.create = async (req,res) => {
+    try {
+        
+        if(req.body.password != req.body.confirm_password) {
+         return res.redirect('back');
+        }
+        let user = await User.findOne({email: req.body.email});     
+         if(!user) {
+             const result = await User.create(req.body);
+        return res.redirect('/users/signin');
+    } else {
+        return res.redirect('back');
+    }
+    } catch (error) {
+        console.log("Something went wrong while signup", error);
+    }
+    
+
+}
+
 module.exports.createSession = (req,res) => {
     console.log("Logged in successfully!");
     return res.redirect('/');
@@ -26,4 +47,10 @@ module.exports.logout = (req,res)=>{
         res.clearCookie('connect.sid');
         res.redirect('/users/sign-in'); 
     });
+}
+
+module.exports.myProfile = (req,res) => {
+    return res.render('profile', {
+        title : "My Profile"
+    })
 }

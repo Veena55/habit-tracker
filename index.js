@@ -7,8 +7,12 @@ const session = require('express-session');
 const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
 const passportGoogle = require('./config/passport-google-oauth2-strategy');
+// const passportLocal = require('./config/passport-local-strategy');
+
+
 // setup layout for view
 const expressLayout = require('express-ejs-layouts');
+app.use(express.urlencoded());
 app.use(express.static('assets'));
 app.use(expressLayout);
 app.set('layout extractStyles', true);
@@ -34,6 +38,12 @@ app.use(passport.session());
 app.use(passport.setAuthenticatedUser);
 
 app.use('/', require('./routes'));
+
+
+process.on('uncaughtException', err => {
+    console.log(`Uncaught Exception: ${err.message}`)
+    process.exit(1)
+})
 
 app.listen(PORT,(err)=>{
     if(err) {

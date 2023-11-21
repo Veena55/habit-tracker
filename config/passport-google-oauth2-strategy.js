@@ -2,13 +2,16 @@ const passport = require('passport');
 const googleStartegy =  require('passport-google-oauth').OAuth2Strategy;
 const crypto = require('crypto');
 const User =  require('../models/user');
+const dotenv = require('dotenv');
+dotenv.config({ path: './.env' });
 
 //tell the passport to use the google strategy for login
 passport.use(new googleStartegy({
-    clientID: "652527454248-6hpuups2qkrpkau4r6cqfnh627dc2qrd.apps.googleusercontent.com",
-    clientSecret: "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",
-    callbackURL: "http://localhost:8000/users/auth/google/callback"
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.CALLBACK_URL
 },
+
 async function(accessToken,refreshToken,profile,done) {
     try {
         const user = await User.findOne({email:profile.emails[0].value});
@@ -16,8 +19,8 @@ async function(accessToken,refreshToken,profile,done) {
         if(user) {
             //if found, set this user as req.user i.e. signin that user
             return done(null, user);
-        } else {//if not found then create new user in database & set it as req.user 
-            // password:crypto.randomBytes((20).toString('hex'))
+        } else {
+            //if not found then create new user in database & set it as req.user 
             const createUser = await User.create({
                 name:profile.displayName,
                 email:profile.emails[0].value
@@ -52,7 +55,7 @@ passport.deserializeUser((user,done)=>{
 passport.checkAuthentication = function(req, res, next){
     // if the user is signed in, then pass on the request to the next function(controller's action)
     if (req.isAuthenticated()){
-        res.locals.user = req.user;
+        res.locals.user = req.user._id;
         return next();
     }
 

@@ -1,4 +1,27 @@
-<form action="/users/logout" method="POST">
-    <button type="submit"> Logout </button>
-</form>
-<h1>User - <%= locals.user %> </h1>
+<section>
+    <div class="w-full shadow-md px-8 flex justify-between items-center h-16">
+        <div>
+            <i class="fa fa-user fa-2x text-slate-400"></i>
+        </div>
+        <div>
+            <form action="/users/logout" method="POST">
+                <button type="submit"> Logout </button>
+            </form>
+        </div>
+    </div>
+    <div class="mt-10">
+        <div class="flex justify-center items-center">
+            <div class="text-center">
+                <!-- <i class="fa-solid fa-face-sad-tear fa-8x text-yellow-400"></i> -->
+                <i class="fa-solid fa-hands-clapping fa-10x text-yellow-400"></i>
+                <p class="text-xl mt-3 font-medium">Task Score - <%= habitScore  %></p>
+                <p class="text-xl mt-3">Hurrey! You Did It</p>
+                <div class="mt-8">
+                    <a href='/habits/<%= locals.user %>' class="p-3 px-10 bg-red-500 text-xl rounded-md text-white cursor-pointer">Track <i class="ml-3 fa-solid fa-arrow-right hover:scale-150 transition-all"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <h1>User - <%= locals.user %> </h1> -->

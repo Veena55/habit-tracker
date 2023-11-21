@@ -1,7 +1,15 @@
-module.exports.main = (req,res)=>{
-    // console.log(res.locals.user);
+const Habit = require('../models/habit');
+var ObjectId = require('mongoose').Types.ObjectId; 
+
+module.exports.main = async(req,res)=>{
+    var userId = req.user._id.toHexString();
+    userId = new ObjectId(userId);
+    var cutoff = new Date();
+    cutoff.setDate(cutoff.getDate());
+    const HabitScore = await Habit.find({user: userId, createdAt : {$lt: cutoff}, status : "Done"}).count();
     return res.render('home',{
-        title : "Home"
+        title : "Home",
+        habitScore: HabitScore
     });
 }
 
