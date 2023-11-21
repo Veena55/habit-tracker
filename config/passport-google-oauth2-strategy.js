@@ -7,9 +7,9 @@ dotenv.config({ path: './.env' });
 
 //tell the passport to use the google strategy for login
 passport.use(new googleStartegy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.CALLBACK_URL
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: CALLBACK_URL
 },
 
 async function(accessToken,refreshToken,profile,done) {
