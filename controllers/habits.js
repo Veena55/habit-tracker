@@ -44,14 +44,6 @@ module.exports.showAddHabitForm = (req,res) =>{
        
     }
 }
-module.exports.progress = async(req,res) => {
-    const habits = await Habit.find({user : req.user._id});
-    console.log(habits);
-    return res.render('progress',{
-        title : "My Progress",
-        habitList : habits
-    })
-}
 
 module.exports.habitOptions = (req,res) => {
     return res.render('habitoptions', {
